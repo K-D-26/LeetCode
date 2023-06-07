@@ -20,7 +20,31 @@ class Solution {
 
 
 
-// Method 2 (Tabulation + space optimized):
+// Method 2 (Tabulation):
+
+class Solution {
+    public int rob(int[] arr) {
+        int n = arr.length;
+        int[] dp = new int[n];
+        for(int i=n-1; i>=0; i--) {
+            if(i == n-1) {
+                dp[i] = arr[i];
+            }
+            else if(i == n-2) {
+                dp[i] = Math.max(arr[i], arr[i+1]);
+            }
+            else {
+                dp[i] = Math.max(arr[i] + dp[i+2], dp[i+1]);
+            }
+        }
+        
+        return dp[0];
+    }
+}
+
+
+
+// Method 3 (Tabulation + space optimized):
 
 class Solution {
     public int rob(int[] nums) {
