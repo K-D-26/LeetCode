@@ -21,3 +21,32 @@ class Solution {
         return root;
     }
 }
+
+
+// -----------------------------------------------------------------------------------------------------------------------------------------------------
+// If the tree contains duplicate values (Question on GFG)
+
+class Solution {
+    public static Node buildTree(int inorder[], int preorder[], int n) {
+        Map<Integer, PriorityQueue<Integer>> inMap = new HashMap<>();
+        for(int i=0; i<n; i++) {
+            inMap.putIfAbsent(inorder[i], new PriorityQueue<>());
+            inMap.get(inorder[i]).offer(i);
+        }
+        return helper(inorder, 0, n-1, preorder, 0, n-1, inMap);
+    }
+    
+    private static Node helper(int[] inorder, int inStart, int inEnd, int[] preorder, int preStart, int preEnd, Map <Integer, PriorityQueue<Integer>> inMap) {
+        if(preStart > preEnd || inStart > inEnd) return null;
+
+        Node root = new Node(preorder[preStart]);
+
+        int inRoot = inMap.get(root.data).poll();
+        int numLeft = inRoot - inStart;
+
+        root.left = helper(inorder, inStart, inRoot - 1, preorder, preStart + 1, preStart + numLeft, inMap);
+        root.right = helper(inorder, inRoot + 1, inEnd, preorder, preStart + numLeft + 1, preEnd, inMap);
+
+        return root;
+    }
+}
