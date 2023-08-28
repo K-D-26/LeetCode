@@ -1,3 +1,5 @@
+// Method 1:
+
 class Solution {
     public int kthSmallest(TreeNode root, int k) {
         int count = countNodes(root.left);
@@ -13,5 +15,30 @@ class Solution {
     public int countNodes(TreeNode n) {
         if(n == null) return 0;
         return 1 + countNodes(n.left) + countNodes(n.right);
+    }
+}
+
+
+// Method 2:
+
+class Solution {
+    private int count = 0;
+    private int result = 0;
+    
+    public int kthSmallest(TreeNode root, int k) {
+        traverse(root, k);
+        return result;
+    }
+    
+    private void traverse(TreeNode node, int k) {
+        if(node == null) return;
+        
+        traverse(node.left, k);
+        count++;
+        if(count == k) {
+            result = node.val;
+            return;
+        }
+        traverse(node.right, k);
     }
 }
